@@ -10,9 +10,7 @@ A visualização apresenta a rede de conexões entre cidades-irmãs ao redor do 
 
 ## Como executar
 
-Abra a pasta do projeto no VS Code e execute o arquivo `index.html` com a extensão **Live Server**. A página também pode ser servida por qualquer servidor HTTP local.
-
-Não abra o arquivo diretamente pelo sistema operacional: use um servidor local para garantir o carregamento correto dos recursos JavaScript.
+- URL: https://arthurfernandes8.github.io/lab7-visualizacao-dados/
 
 ## Como usar
 
