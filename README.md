@@ -1,5 +1,3 @@
-# lab7-visualizacao-dados
-
 # Cidades-irmãs pelo mundo
 
 Projeto final da disciplina de **Visualização de Dados** — Grupo J.
