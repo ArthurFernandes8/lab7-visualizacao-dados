@@ -92,6 +92,45 @@
         padding: 20px 50px;
         background-color: #a4dceb;
       }
+      #container {
+    max-width: 100%;
+    height: 470px;
+    padding: 10px 50px 10px 50px;
+    position: relative;
+  }
+  
+  #container > div:first-child {
+    background: linear-gradient(135deg, #e8edf3 0%, #d5dce6 50%, #e8edf3 100%);
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Estrelas sutis (opcional, em tom mais claro) */
+  #container > div:first-child::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(1px 1px at 20px 30px, rgba(100,120,150,0.15), transparent),
+      radial-gradient(1px 1px at 40px 70px, rgba(100,120,150,0.10), transparent),
+      radial-gradient(1px 1px at 90px 40px, rgba(100,120,150,0.20), transparent);
+    background-size: 200px 200px;
+    background-repeat: repeat;
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 0;
+    border-radius: 15px;
+  }
+  
+  #container canvas {
+    position: relative;
+    z-index: 1;
+  }
     </style>
   </head>
   <body>
@@ -231,6 +270,30 @@
         style: "percent",
         maximumFractionDigits: 1
       });
+      const colorPalette = {
+        country: {
+          default: "#c8d4e0",     
+          hover: "#a8b8cc",       
+          border: "#8899aa"       
+        },
+        connections: {
+          international: {
+            base: "rgba(41, 128, 185, 0.9)",   
+            hover: "rgba(41, 128, 185, 1)",
+            gradient: ["#2980b9", "#3498db"]
+          },
+          national: {
+            base: "rgba(241, 196, 15, 0.8)",     // Amarelo ouro
+            hover: "rgba(241, 196, 15, 1)",
+            gradient: ["#f39c12", "#f1c40f"]
+          }
+        },
+        highlights: {
+          primary: "#e74c3c",      // Vermelho vibrante
+          secondary: "#f39c12",    // Laranja
+          accent: "#8e44ad"        // Roxo
+        }
+      };
 
       function renameGreenlandOnMap() {
         const mapRecord = echarts.getMap("world");
@@ -661,7 +724,7 @@
             trigger: "item",
             backgroundColor: "rgba(255,255,255,0.96)",
             borderColor: "rgba(35,48,66,0.16)",
-            textStyle: { color: "#202936" },
+            textStyle: { color: "#2c3e50", fontSize : 14 },
             formatter(params) {
               if (params.seriesType === "lines") {
                 if (params.data.sourceName) {
@@ -693,13 +756,17 @@
               borderWidth: 0.55
             },
             emphasis: {
-              itemStyle: { areaColor: "#535a64" },
+              itemStyle: { 
+                areaColor: colorPalette.country.hover,
+                shadowBlur: 10,
+                shadowColor: "rgba(41, 128, 185, 0.2)" },
               label: { show: false }
             },
             regions: [{
               name: "China",
               itemStyle: { borderWidth: 1.2, borderColor: "#3f444b" },
-              emphasis: { itemStyle: { areaColor: "#535a64", borderColor: "#535a64" } }
+              emphasis: { itemStyle: { areaColor: "#535a64", borderColor: "#535a64" } },
+              
             }]
           },
           series: [
@@ -711,17 +778,33 @@
               large: true,
               progressive: 3000,
               lineStyle: {
-                color: isNational ? "#cf8517" : "#2f80ed",
-                width: state.viewMode === "all" ? 0.55 : 1.4,
-                opacity: state.viewMode === "all" ? 0.16 : 0.52,
-                curveness: 0.2
+                    color:  {
+                      type: 'linear',
+                      x: 0, y: 0, x2: 1, y2: 0,
+                      colorStops: isNational ? [
+                        { offset: 0, color: '#f7971e' },
+                        { offset: 1, color: '#ffd200' }
+                      ] : [
+                        { offset: 0, color: '#4facfe' },
+                        { offset: 1, color: '#00f2fe' }
+                      ]
+                    },
+                    width: state.viewMode === "all" ? 1 : 2.5,
+                    opacity: state.viewMode === "all" ? 0.3 : 0.7,
+                    curveness: 0.3,
+                    shadowBlur: 8,          // NOVO: efeito glow
+                    shadowColor: isNational ? "rgba(247, 151, 30, 0.3)" : "rgba(79, 172, 254, 0.3)"
               },
               data: corridorLines,
-              emphasis: {
+             emphasis: {
                 lineStyle: {
-                  opacity: 0.9,
-                  width: 2.1
-                }
+                  opacity: 1,
+                  width: 3.5,
+                  shadowBlur: 20,
+                  shadowColor: isNational ? "rgba(247, 151, 30, 0.6)" : "rgba(79, 172, 254, 0.6)"
+                },
+                // NOVO: Efeito de escala nos nós
+                scale: 1.2
               }
             },
             {
@@ -733,15 +816,29 @@
                 return params.data.symbolSize;
               },
               itemStyle: {
-                color: "rgba(207,133,23,0.72)",
-                borderColor: "#8a560d",
-                borderWidth: 1
-              },
+                color: {
+                    type: "radial",
+                    x: 0.5,
+                    y: 0.5,
+                    r: 0.7,
+                    colorStops: [
+                      { offset: 0, color: "#ffd93d" },
+                      { offset: 1, color: "#f7971e" }
+                    ]
+                  },
+                  borderColor: "#ffd700",
+                  borderWidth: 2,
+                  shadowBlur: 15,
+                  shadowColor: "rgba(241, 196, 15, 0.4)"
+                },
+              
               label: {
                 show: state.viewMode !== "all",
                 position: "right",
-                color: "#60400e",
+                color: "#e0e8f0",
                 fontWeight: 700,
+                textShadowBlur: 4,
+                textShadowColor: "rgba(0,0,0,0.5)",
                 formatter(params) {
                   return params.data.country;
                 }
@@ -754,10 +851,20 @@
               coordinateSystem: "geo",
               zlevel: 4,
               lineStyle: {
-                color: "#cf8517",
-                width: 1.2,
-                opacity: 0.58,
-                curveness: 0.16
+                  color: colorPalette.connections.national.base,
+                  width: 1.8,  // Aumentado de 1.2
+                  opacity: 0.7, // Aumentado de 0.58
+                  curveness: 0.2,
+                  shadowBlur: 10,  // NOVO: Efeito glow
+                  shadowColor: "rgba(241, 196, 15, 0.4)"
+              },
+              emphasis: {
+                lineStyle: {
+                  opacity: 1,
+                  width: 3,
+                  shadowBlur: 20,
+                  shadowColor: "rgba(241, 196, 15, 0.7)"
+                }
               },
               data: nationalLines
             },
@@ -769,7 +876,9 @@
               symbolSize(value, params) {
                 return params.data.symbolSize;
               },
-              rippleEffect: { scale: 2.4, brushType: "stroke" },
+              rippleEffect: { scale: 4, 
+                brushType: "stroke",
+                period: 3 },
               itemStyle: {
                 color: "#cf8517",
                 shadowBlur: 12,
@@ -823,7 +932,50 @@
           ]
         };
       }
-
+      // Função para criar regiões com destaque
+      function createHighlightedRegions(selectedCountry) {
+        if (!selectedCountry) return [];
+        
+        // Mapeamento de nomes para o GeoJSON (ajuste conforme necessário)
+        const countryNameMap = {
+          "United States of America": "United States",
+          "Dem. Rep. Congo": "Democratic Republic of the Congo",
+          "Bosnia and Herz.": "Bosnia and Herzegovina",
+          "Czechia": "Czech Republic",
+          // Adicione outros mapeamentos se necessário
+        };
+        
+        const mapName = countryNameMap[selectedCountry] || selectedCountry;
+        
+        return [{
+          name: mapName,
+          selected: true,
+          itemStyle: {
+            areaColor: "#4a8ab5",  // Cor de destaque
+            borderColor: "#4facfe",
+            borderWidth: 3,
+            shadowBlur: 20,
+            shadowColor: "rgba(79, 172, 254, 0.6)"
+          },
+          emphasis: {
+            itemStyle: {
+              areaColor: "#5a9ac5",
+              borderColor: "#5facfe",
+              borderWidth: 4,
+              shadowBlur: 30,
+              shadowColor: "rgba(79, 172, 254, 0.8)"
+            }
+          },
+          label: {
+            show: true,
+            color: "#ffffff",
+            fontWeight: "bold",
+            fontSize: 14,
+            textShadowBlur: 10,
+            textShadowColor: "rgba(0,0,0,0.8)"
+          }
+        }];
+      }
       function updateSelection(summary) {
         if (!state.selectedCountry || !summary) {
           ui.selectionCountry.textContent = "Nenhum país";
@@ -858,10 +1010,20 @@
         const counts = countryCounts(links);
         const summary = selectedSummary(links);
         const corridors = visibleCorridors(links, counts, summary);
+        
+        const option = makeOption({ links, counts, corridors, summary });
 
-        chart.setOption(makeOption({ links, counts, corridors, summary }), true);
+   
+        if (state.selectedCountry) {
+          option.geo.regions = createHighlightedRegions(state.selectedCountry);
+        }
+        chart.setOption(makeOption({ links, counts, corridors, summary }), {notMerge: true,
+        animationDuration: 800,
+        animationEasing: 'cubicOut'
+        });
         updateSelection(summary);
         ui.selectionText.title = `${numberFmt.format(links.length)} conexões disponíveis no recorte atual.`;
+        
       }
 
       function readFiltersFromUI() {
@@ -967,6 +1129,11 @@
           if (!country) {
             return;
           }
+           chart.dispatchAction({
+            type: 'highlight',
+            seriesIndex: 0,
+            name: country
+          });
           state.selectedCountry = country;
           state.country = "all";
           state.viewMode = "selected";
@@ -976,7 +1143,31 @@
 
         window.addEventListener("resize", () => chart.resize());
       }
-
+     // Função para animar zoom até o país selecionado
+      function zoomToCountry(country) {
+        if (!country || !store.countryCentroids.has(country)) return;
+        
+        const center = store.countryCentroids.get(country);
+        
+        // Calcula o zoom baseado no tamanho do país (opcional)
+        // Países maiores têm zoom menor, países menores têm zoom maior
+        const countrySize = getCountrySize(country);
+        const zoomLevel = Math.max(1.5, Math.min(4, 8 / Math.sqrt(countrySize)));
+        
+        // Aplica o zoom com animação suave
+        chart.setOption({
+          geo: {
+            center: [center.lng, center.lat],
+            zoom: zoomLevel,
+            animationDuration: 800,
+            animationEasing: 'cubicOut'
+          }
+        }, true);
+      }
+      function getCountrySize(country) {
+        const cities = store.countryCityIds.get(country);
+        return cities ? cities.length : 10;
+      }
       function loadData() {
         if (!echarts.getMap || !echarts.getMap("world")) {
           throw new Error("O mapa-múndi não foi carregado.");
