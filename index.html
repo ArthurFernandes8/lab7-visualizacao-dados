@@ -799,35 +799,12 @@
               itemStyle: { areaColor: "#535a64" },
               label: { show: false }
             },
-            regions: chinaMapRegions()
+            //regions: chinaMapRegions()
           },
           series: [
+
             {
-              name: "China unificada",
-              type: "map",
-              map: "world",
-              zlevel: 0,
-              silent: true,
-              roam: false,
-              itemStyle: {
-                areaColor: "transparent",
-                borderWidth: 0
-              },
-              emphasis: {
-                disabled: true
-              },
-              data: [
-                {
-                  name: "China",
-                  itemStyle: {
-                    areaColor: "#3f444b",
-                    borderColor: "#3f444b",
-                    borderWidth: 0
-                  }
-                }
-              ]
-            },
-            {
+              
               name: "Corredores",
               type: "lines",
               coordinateSystem: "geo",
