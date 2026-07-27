@@ -261,6 +261,63 @@
         echarts.registerMap("world", geoJson, mapRecord.specialAreas);
       }
 
+      function mergeChinaOnMap() {
+        const mapRecord = echarts.getMap("world");
+        const geoJson = mapRecord && mapRecord.geoJson;
+
+        if (!geoJson) {
+          return;
+        }
+
+        const chinaProvinces = new Set([
+          "台湾", "河北", "山西", "内蒙古", "辽宁", "吉林",
+          "黑龙江", "江苏", "浙江", "安徽", "福建", "江西",
+          "山东", "河南", "湖北", "湖南", "广东", "广西",
+          "海南", "四川", "贵州", "云南", "西藏", "陕西",
+          "甘肃", "青海", "宁夏", "新疆", "北京", "天津",
+          "上海", "重庆", "香港", "澳门"
+        ]);
+
+        const chinaFeatures = [];
+        const others = [];
+
+        for (const feature of geoJson.features) {
+          if (chinaProvinces.has(feature.properties.name)) {
+            chinaFeatures.push(feature);
+          } else {
+            others.push(feature);
+          }
+        }
+
+        if (chinaFeatures.length === 0) {
+          return;
+        }
+
+        const allCoords = [];
+        for (const feature of chinaFeatures) {
+          const geom = feature.geometry;
+          if (geom.type === "Polygon") {
+            allCoords.push(geom.coordinates);
+          } else if (geom.type === "MultiPolygon") {
+            for (const poly of geom.coordinates) {
+              allCoords.push(poly);
+            }
+          }
+        }
+
+        const chinaFeature = {
+          type: "Feature",
+          properties: { name: "China" },
+          geometry: {
+            type: "MultiPolygon",
+            coordinates: allCoords
+          }
+        };
+
+        geoJson.features = [chinaFeature, ...others];
+        echarts.registerMap("world", geoJson, mapRecord.specialAreas);
+      }
+
       function parseCSV(text) {
         const lines = text.trim().replace(/^\uFEFF/, "").split(/\r?\n/);
         const parseLine = (line) => {
@@ -638,7 +695,12 @@
             emphasis: {
               itemStyle: { areaColor: "#535a64" },
               label: { show: false }
-            }
+            },
+            regions: [{
+              name: "China",
+              itemStyle: { borderWidth: 0, borderColor: "transparent" },
+              emphasis: { itemStyle: { areaColor: "#535a64" } }
+            }]
           },
           series: [
             {
@@ -840,7 +902,41 @@
           "Democratic Republic of the Congo": "Dem. Rep. Congo",
           "Republic of the Congo": "Congo",
           "Bosnia and Herzegovina": "Bosnia and Herz.",
-          "Czech Republic": "Czechia"
+          "Czech Republic": "Czechia",
+          "台湾": "China",
+          "河北": "China",
+          "山西": "China",
+          "内蒙古": "China",
+          "辽宁": "China",
+          "吉林": "China",
+          "黑龙江": "China",
+          "江苏": "China",
+          "浙江": "China",
+          "安徽": "China",
+          "福建": "China",
+          "江西": "China",
+          "山东": "China",
+          "河南": "China",
+          "湖北": "China",
+          "湖南": "China",
+          "广东": "China",
+          "广西": "China",
+          "海南": "China",
+          "四川": "China",
+          "贵州": "China",
+          "云南": "China",
+          "西藏": "China",
+          "陕西": "China",
+          "甘肃": "China",
+          "青海": "China",
+          "宁夏": "China",
+          "新疆": "China",
+          "北京": "China",
+          "天津": "China",
+          "上海": "China",
+          "重庆": "China",
+          "香港": "China",
+          "澳门": "China"
         };
 
         if (store.countryCentroids.has(name)) {
@@ -911,6 +1007,7 @@
       async function boot() {
         try {
           renameGreenlandOnMap();
+          mergeChinaOnMap();
           await loadData();
           attachEvents();
           updateControls();
