@@ -19,7 +19,7 @@ A visualização apresenta a rede de conexões entre cidades-irmãs ao redor do 
 - Clique em um país no mapa para consultar o total de conexões e seus parceiros.
 - Use **Limpar** para restaurar os filtros iniciais.
 
-## Estrutura
+## Estrutura do projeto
 
 - `index.html`: página da entrega, visualização e dados incorporados.
 - `vendor/echarts.min.js`: biblioteca ECharts utilizada na visualização.
