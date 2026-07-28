@@ -92,6 +92,45 @@
         padding: 20px 50px;
         background-color: #a4dceb;
       }
+      #container {
+    max-width: 100%;
+    height: 560px;
+    padding: 10px 50px 10px 50px;
+    position: relative;
+  }
+  
+  #container > div:first-child {
+    background: linear-gradient(135deg, #e8edf3 0%, #d5dce6 50%, #e8edf3 100%);
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Estrelas sutis (opcional, em tom mais claro) */
+  #container > div:first-child::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(1px 1px at 20px 30px, rgba(100,120,150,0.15), transparent),
+      radial-gradient(1px 1px at 40px 70px, rgba(100,120,150,0.10), transparent),
+      radial-gradient(1px 1px at 90px 40px, rgba(100,120,150,0.20), transparent);
+    background-size: 200px 200px;
+    background-repeat: repeat;
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 0;
+    border-radius: 15px;
+  }
+  
+  #container canvas {
+    position: relative;
+    z-index: 1;
+  }
     </style>
   </head>
   <body>
@@ -143,14 +182,14 @@
       </p>
     </div>
 
-    <div id="container" style="max-width: 100%; height: 470px; padding: 10px 50px 10px 50px">
+    <div id="container" style="max-width: 100%; height: 560px; padding: 10px 50px 10px 50px">
     </div>
 
-    <div id="footer" style="height: 2%; margin-top: 150px">
-      <p style="text-align: justify; padding: 20px 50px 0px 50px">
+    <div id="footer" style="position: fixed; left: 50px; bottom: 16px; z-index: 20; width: 390px; height: auto; margin: 0; padding: 12px 14px; border: 1px solid rgba(35, 48, 66, .16); border-radius: 8px; background: rgba(255,255,255,.94); box-shadow: 0 4px 12px rgba(0,0,0,.12); font: 12px Arial, sans-serif; color: #333;">
+      <p style="text-align: justify; padding: 0; margin: 0 0 6px 0">
         <b>Dicas para interagir com a visualização</b>:
       </p>
-      <ul style="padding: 0px 50px 10px 75px;">
+      <ul style="padding: 0 0 0 18px; margin: 0;">
       <li>Use os filtros posicionados sobre o mapa para delimitar as conexões exibidas.</li>
       <li>Clique em um país para ver seu total de conexões e parceiros.</li>
       <li>Alterne entre mapa limpo, país selecionado, hubs e todas as conexões.</li>
@@ -187,7 +226,7 @@
     myChart.showLoading();
 
       dom.style.position = "relative";
-      dom.insertAdjacentHTML("beforeend", "\n        <style>\n          #network-controls { position: absolute; z-index: 10; top: 12px; right: 12px; bottom: 12px; width: 240px; overflow: auto; padding: 12px; border: 1px solid rgba(35, 48, 66, .16); border-radius: 8px; background: rgba(255,255,255,.94); box-shadow: 0 4px 12px rgba(0,0,0,.12); font: 12px Arial, sans-serif; color: #333; }\n          #network-controls h3 { margin: 0 0 8px; font-size: 15px; }\n          #network-controls .field { display: grid; gap: 3px; margin: 0 0 8px; }\n          #network-controls label { color: #596675; font-size: 11px; }\n          #network-controls select, #network-controls button { width: 100%; padding: 7px; border: 1px solid #cbd3db; border-radius: 5px; background: #fff; font: inherit; }\n          #network-controls button { cursor: pointer; }\n          #network-controls .button-primary { background: #3498db; border-color: #3498db; color: #fff; }\n          #network-controls .button-row, #network-controls .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }\n          #network-controls .selection { margin-top: 10px; padding-top: 10px; border-top: 1px solid #dbe2e8; }\n          #network-controls .selection-country { font-size: 14px; font-weight: 700; }\n          #network-controls .status { margin: 3px 0 7px; color: #657386; font-size: 11px; }\n          #network-controls .stat { padding: 6px; border-radius: 4px; background: #f4f6f9; }\n          #network-controls .label { display: block; color: #657386; font-size: 10px; }\n          #network-controls .value { font-weight: 700; }\n          @media (max-width: 760px) { #network-controls { top: auto; left: 12px; width: auto; max-height: 56%; } }\n        </style>\n        <aside id=\"network-controls\" aria-label=\"Filtros da visualização\">\n          <h3>Filtros</h3>\n          <div class=\"field\"><label for=\"viewMode\">Visualizar</label><select id=\"viewMode\"><option value=\"clean\" selected>Mapa limpo</option><option value=\"selected\">País selecionado</option><option value=\"top\">Países mais conectados</option><option value=\"all\">Todas as conexões</option></select></div>\n          <div class=\"field\"><label for=\"connectionMode\">Tipo de conexão</label><select id=\"connectionMode\"><option value=\"international\" selected>Entre países</option><option value=\"national\">Internas no país</option><option value=\"both\">Todas</option></select></div>\n          <div class=\"field\"><label for=\"hemisphere\">Hemisfério</label><select id=\"hemisphere\"><option value=\"all\">Todos</option><option value=\"north\">Norte</option><option value=\"south\">Sul</option></select></div>\n          <div class=\"field\"><label for=\"continent\">Continente</label><select id=\"continent\"><option value=\"all\">Todos</option></select></div>\n          <div class=\"field\"><label for=\"country\">País</label><select id=\"country\"><option value=\"all\">Todos</option></select></div>\n          <div class=\"field\"><label for=\"topLimit\">Maiores conexões</label><select id=\"topLimit\"><option value=\"5\">Top 5</option><option value=\"10\" selected>Top 10</option><option value=\"20\">Top 20</option></select></div>\n          <div class=\"button-row\"><button class=\"button-primary\" id=\"applyButton\">Aplicar</button><button id=\"resetButton\">Limpar</button></div>\n          <div class=\"selection\"><strong>Seleção</strong><div class=\"selection-country\" id=\"selectionCountry\">Nenhum país</div><div class=\"status\" id=\"selectionText\">Clique em um país no mapa.</div><div class=\"stats\"><div class=\"stat\"><span class=\"label\">Total</span><span class=\"value\" id=\"statLinks\">--</span></div><div class=\"stat\"><span class=\"label\">Parceiros</span><span class=\"value\" id=\"statPartners\">--</span></div></div></div>\n        </aside>");
+      dom.insertAdjacentHTML("beforeend", "\n        <style>\n          #network-controls { position: absolute; z-index: 10; top: 12px; right: 12px; bottom: 12px; width: 240px; overflow: auto; padding: 12px; border: 1px solid rgba(35, 48, 66, .16); border-radius: 8px; background: rgba(255,255,255,.94); box-shadow: 0 4px 12px rgba(0,0,0,.12); font: 12px Arial, sans-serif; color: #333; }\n          #network-controls h3 { margin: 0 0 8px; font-size: 15px; }\n          #network-controls .field { display: grid; gap: 3px; margin: 0 0 8px; }\n          #network-controls label { color: #596675; font-size: 11px; }\n          #network-controls select, #network-controls button { width: 100%; padding: 7px; border: 1px solid #cbd3db; border-radius: 5px; background: #fff; font: inherit; }\n          #network-controls button { cursor: pointer; }\n          #network-controls .button-primary { background: #3498db; border-color: #3498db; color: #fff; }\n          #network-controls .button-row, #network-controls .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }\n          #network-controls .selection { margin-top: 10px; padding-top: 10px; border-top: 1px solid #dbe2e8; }\n          #network-controls .selection-country { font-size: 14px; font-weight: 700; }\n          #network-controls .status { margin: 3px 0 7px; color: #657386; font-size: 11px; }\n          #network-controls .stat { padding: 6px; border-radius: 4px; background: #f4f6f9; }\n          #network-controls .label { display: block; color: #657386; font-size: 10px; }\n          #network-controls .value { font-weight: 700; }\n          @media (max-width: 760px) { #network-controls { top: auto; left: 12px; width: auto; max-height: 56%; } }\n        </style>\n        <aside id=\"network-controls\" aria-label=\"Filtros da visualização\">\n          <h3>Filtros</h3>\n          <div class=\"field\"><label for=\"viewMode\">Visualizar</label><select id=\"viewMode\"><option value=\"clean\" selected>Mapa limpo</option><option value=\"selected\">País selecionado</option><option value=\"top\">Países mais conectados</option><option value=\"all\">Todas as conexões</option></select></div>\n          <div class=\"field\"><label for=\"connectionMode\">Tipo de conexão</label><select id=\"connectionMode\"><option value=\"international\" selected>Entre países</option><option value=\"national\">Internas no país</option><option value=\"both\">Todas</option></select></div>\n          <div class=\"field\"><label for=\"hemisphere\">Hemisfério</label><select id=\"hemisphere\"><option value=\"all\">Todos</option><option value=\"north\">Norte</option><option value=\"south\">Sul</option></select></div>\n          <div class=\"field\"><label for=\"continent\">Continente</label><select id=\"continent\"><option value=\"all\">Todos</option></select></div>\n          <div class=\"field\"><label for=\"country\">País</label><select id=\"country\"><option value=\"all\">Todos</option></select></div>\n          <div class=\"button-row\"><button class=\"button-primary\" id=\"applyButton\">Aplicar</button><button id=\"resetButton\">Limpar</button></div>\n          <div class=\"selection\"><strong>Seleção</strong><div class=\"selection-country\" id=\"selectionCountry\">Nenhum país</div><div class=\"status\" id=\"selectionText\">Clique em um país no mapa.</div><div class=\"stats\"><div class=\"stat\"><span class=\"label\">Total</span><span class=\"value\" id=\"statLinks\">--</span></div><div class=\"stat\"><span class=\"label\">Parceiros</span><span class=\"value\" id=\"statPartners\">--</span></div></div></div>\n        </aside>");
 
       const chart = myChart;
 
@@ -197,7 +236,6 @@
         hemisphere: document.getElementById("hemisphere"),
         continent: document.getElementById("continent"),
         country: document.getElementById("country"),
-        topLimit: document.getElementById("topLimit"),
         applyButton: document.getElementById("applyButton"),
         resetButton: document.getElementById("resetButton"),
         selectionCountry: document.getElementById("selectionCountry"),
@@ -212,7 +250,6 @@
         hemisphere: "all",
         continent: "all",
         country: "all",
-        topLimit: 10,
         selectedCountry: null
       };
 
@@ -226,11 +263,36 @@
         continents: []
       };
 
+      const topCountryLimit = 10;
       const numberFmt = new Intl.NumberFormat("pt-BR");
       const percentFmt = new Intl.NumberFormat("pt-BR", {
         style: "percent",
         maximumFractionDigits: 1
       });
+      const colorPalette = {
+        country: {
+          default: "#c8d4e0",     
+          hover: "#a8b8cc",       
+          border: "#8899aa"       
+        },
+        connections: {
+          international: {
+            base: "rgba(41, 128, 185, 0.9)",   
+            hover: "rgba(41, 128, 185, 1)",
+            gradient: ["#2980b9", "#3498db"]
+          },
+          national: {
+            base: "rgba(241, 196, 15, 0.8)",     // Amarelo ouro
+            hover: "rgba(241, 196, 15, 1)",
+            gradient: ["#f39c12", "#f1c40f"]
+          }
+        },
+        highlights: {
+          primary: "#e74c3c",      // Vermelho vibrante
+          secondary: "#f39c12",    // Laranja
+          accent: "#8e44ad"        // Roxo
+        }
+      };
 
       function renameGreenlandOnMap() {
         const mapRecord = echarts.getMap("world");
@@ -519,7 +581,7 @@
       function topCountries(counts) {
         return [...counts.entries()]
           .sort((a, b) => b[1] - a[1])
-          .slice(0, state.topLimit)
+          .slice(0, topCountryLimit)
           .map(([country]) => country);
       }
 
@@ -539,7 +601,7 @@
               (corridor) =>
                 countries.has(corridor.sourceCountry) || countries.has(corridor.targetCountry)
             )
-            .slice(0, 90);
+            .slice(0, topCountryLimit);
         }
 
         return aggregateCorridors(links);
@@ -661,7 +723,7 @@
             trigger: "item",
             backgroundColor: "rgba(255,255,255,0.96)",
             borderColor: "rgba(35,48,66,0.16)",
-            textStyle: { color: "#202936" },
+            textStyle: { color: "#2c3e50", fontSize : 14 },
             formatter(params) {
               if (params.seriesType === "lines") {
                 if (params.data.sourceName) {
@@ -693,13 +755,17 @@
               borderWidth: 0.55
             },
             emphasis: {
-              itemStyle: { areaColor: "#535a64" },
+              itemStyle: { 
+                areaColor: colorPalette.country.hover,
+                shadowBlur: 10,
+                shadowColor: "rgba(41, 128, 185, 0.2)" },
               label: { show: false }
             },
             regions: [{
               name: "China",
               itemStyle: { borderWidth: 1.2, borderColor: "#3f444b" },
-              emphasis: { itemStyle: { areaColor: "#535a64", borderColor: "#535a64" } }
+              emphasis: { itemStyle: { areaColor: "#535a64", borderColor: "#535a64" } },
+              
             }]
           },
           series: [
@@ -711,17 +777,33 @@
               large: true,
               progressive: 3000,
               lineStyle: {
-                color: isNational ? "#cf8517" : "#2f80ed",
-                width: state.viewMode === "all" ? 0.55 : 1.4,
-                opacity: state.viewMode === "all" ? 0.16 : 0.52,
-                curveness: 0.2
+                    color:  {
+                      type: 'linear',
+                      x: 0, y: 0, x2: 1, y2: 0,
+                      colorStops: isNational ? [
+                        { offset: 0, color: '#f7971e' },
+                        { offset: 1, color: '#ffd200' }
+                      ] : [
+                        { offset: 0, color: '#4facfe' },
+                        { offset: 1, color: '#00f2fe' }
+                      ]
+                    },
+                    width: state.viewMode === "all" ? 1 : 2.5,
+                    opacity: state.viewMode === "all" ? 0.3 : 0.7,
+                    curveness: 0.3,
+                    shadowBlur: 8,          // NOVO: efeito glow
+                    shadowColor: isNational ? "rgba(247, 151, 30, 0.3)" : "rgba(79, 172, 254, 0.3)"
               },
               data: corridorLines,
-              emphasis: {
+             emphasis: {
                 lineStyle: {
-                  opacity: 0.9,
-                  width: 2.1
-                }
+                  opacity: 1,
+                  width: 3.5,
+                  shadowBlur: 20,
+                  shadowColor: isNational ? "rgba(247, 151, 30, 0.6)" : "rgba(79, 172, 254, 0.6)"
+                },
+                // NOVO: Efeito de escala nos nós
+                scale: 1.2
               }
             },
             {
@@ -733,15 +815,29 @@
                 return params.data.symbolSize;
               },
               itemStyle: {
-                color: "rgba(207,133,23,0.72)",
-                borderColor: "#8a560d",
-                borderWidth: 1
-              },
+                color: {
+                    type: "radial",
+                    x: 0.5,
+                    y: 0.5,
+                    r: 0.7,
+                    colorStops: [
+                      { offset: 0, color: "#ffd93d" },
+                      { offset: 1, color: "#f7971e" }
+                    ]
+                  },
+                  borderColor: "#ffd700",
+                  borderWidth: 2,
+                  shadowBlur: 15,
+                  shadowColor: "rgba(241, 196, 15, 0.4)"
+                },
+              
               label: {
                 show: state.viewMode !== "all",
                 position: "right",
-                color: "#60400e",
+                color: "#e0e8f0",
                 fontWeight: 700,
+                textShadowBlur: 4,
+                textShadowColor: "rgba(0,0,0,0.5)",
                 formatter(params) {
                   return params.data.country;
                 }
@@ -754,10 +850,20 @@
               coordinateSystem: "geo",
               zlevel: 4,
               lineStyle: {
-                color: "#cf8517",
-                width: 1.2,
-                opacity: 0.58,
-                curveness: 0.16
+                  color: colorPalette.connections.national.base,
+                  width: 1.8,  // Aumentado de 1.2
+                  opacity: 0.7, // Aumentado de 0.58
+                  curveness: 0.2,
+                  shadowBlur: 10,  // NOVO: Efeito glow
+                  shadowColor: "rgba(241, 196, 15, 0.4)"
+              },
+              emphasis: {
+                lineStyle: {
+                  opacity: 1,
+                  width: 3,
+                  shadowBlur: 20,
+                  shadowColor: "rgba(241, 196, 15, 0.7)"
+                }
               },
               data: nationalLines
             },
@@ -769,7 +875,9 @@
               symbolSize(value, params) {
                 return params.data.symbolSize;
               },
-              rippleEffect: { scale: 2.4, brushType: "stroke" },
+              rippleEffect: { scale: 4, 
+                brushType: "stroke",
+                period: 3 },
               itemStyle: {
                 color: "#cf8517",
                 shadowBlur: 12,
@@ -823,7 +931,50 @@
           ]
         };
       }
-
+      // Função para criar regiões com destaque
+      function createHighlightedRegions(selectedCountry) {
+        if (!selectedCountry) return [];
+        
+        // Mapeamento de nomes para o GeoJSON (ajuste conforme necessário)
+        const countryNameMap = {
+          "United States of America": "United States",
+          "Dem. Rep. Congo": "Democratic Republic of the Congo",
+          "Bosnia and Herz.": "Bosnia and Herzegovina",
+          "Czechia": "Czech Republic",
+          // Adicione outros mapeamentos se necessário
+        };
+        
+        const mapName = countryNameMap[selectedCountry] || selectedCountry;
+        
+        return [{
+          name: mapName,
+          selected: true,
+          itemStyle: {
+            areaColor: "#4a8ab5",  // Cor de destaque
+            borderColor: "#4facfe",
+            borderWidth: 3,
+            shadowBlur: 20,
+            shadowColor: "rgba(79, 172, 254, 0.6)"
+          },
+          emphasis: {
+            itemStyle: {
+              areaColor: "#5a9ac5",
+              borderColor: "#5facfe",
+              borderWidth: 4,
+              shadowBlur: 30,
+              shadowColor: "rgba(79, 172, 254, 0.8)"
+            }
+          },
+          label: {
+            show: true,
+            color: "#ffffff",
+            fontWeight: "bold",
+            fontSize: 14,
+            textShadowBlur: 10,
+            textShadowColor: "rgba(0,0,0,0.8)"
+          }
+        }];
+      }
       function updateSelection(summary) {
         if (!state.selectedCountry || !summary) {
           ui.selectionCountry.textContent = "Nenhum país";
@@ -850,7 +1001,6 @@
         ui.hemisphere.value = state.hemisphere;
         ui.continent.value = state.continent;
         ui.country.value = state.country;
-        ui.topLimit.value = String(state.topLimit);
       }
 
       function render() {
@@ -858,10 +1008,20 @@
         const counts = countryCounts(links);
         const summary = selectedSummary(links);
         const corridors = visibleCorridors(links, counts, summary);
+        
+        const option = makeOption({ links, counts, corridors, summary });
 
-        chart.setOption(makeOption({ links, counts, corridors, summary }), true);
+   
+        if (state.selectedCountry) {
+          option.geo.regions = createHighlightedRegions(state.selectedCountry);
+        }
+        chart.setOption(makeOption({ links, counts, corridors, summary }), {notMerge: true,
+        animationDuration: 800,
+        animationEasing: 'cubicOut'
+        });
         updateSelection(summary);
         ui.selectionText.title = `${numberFmt.format(links.length)} conexões disponíveis no recorte atual.`;
+        
       }
 
       function readFiltersFromUI() {
@@ -870,11 +1030,14 @@
         state.hemisphere = ui.hemisphere.value;
         state.continent = ui.continent.value;
         state.country = ui.country.value;
-        state.topLimit = Number(ui.topLimit.value);
+
+        const hasGeographicFilter = state.hemisphere !== "all" || state.continent !== "all";
 
         if (state.country !== "all") {
           state.selectedCountry = state.country;
           state.viewMode = "selected";
+        } else if (hasGeographicFilter && state.viewMode === "clean") {
+          state.viewMode = "all";
         }
       }
 
@@ -890,7 +1053,6 @@
         state.hemisphere = "all";
         state.continent = "all";
         state.country = "all";
-        state.topLimit = 10;
         state.selectedCountry = null;
         updateControls();
         render();
@@ -956,8 +1118,7 @@
           ui.connectionMode,
           ui.hemisphere,
           ui.continent,
-          ui.country,
-          ui.topLimit
+          ui.country
         ].forEach((control) => {
           control.addEventListener("change", applyFilters);
         });
@@ -967,6 +1128,11 @@
           if (!country) {
             return;
           }
+           chart.dispatchAction({
+            type: 'highlight',
+            seriesIndex: 0,
+            name: country
+          });
           state.selectedCountry = country;
           state.country = "all";
           state.viewMode = "selected";
@@ -976,7 +1142,31 @@
 
         window.addEventListener("resize", () => chart.resize());
       }
-
+     // Função para animar zoom até o país selecionado
+      function zoomToCountry(country) {
+        if (!country || !store.countryCentroids.has(country)) return;
+        
+        const center = store.countryCentroids.get(country);
+        
+        // Calcula o zoom baseado no tamanho do país (opcional)
+        // Países maiores têm zoom menor, países menores têm zoom maior
+        const countrySize = getCountrySize(country);
+        const zoomLevel = Math.max(1.5, Math.min(4, 8 / Math.sqrt(countrySize)));
+        
+        // Aplica o zoom com animação suave
+        chart.setOption({
+          geo: {
+            center: [center.lng, center.lat],
+            zoom: zoomLevel,
+            animationDuration: 800,
+            animationEasing: 'cubicOut'
+          }
+        }, true);
+      }
+      function getCountrySize(country) {
+        const cities = store.countryCityIds.get(country);
+        return cities ? cities.length : 10;
+      }
       function loadData() {
         if (!echarts.getMap || !echarts.getMap("world")) {
           throw new Error("O mapa-múndi não foi carregado.");
