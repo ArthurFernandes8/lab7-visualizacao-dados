@@ -226,7 +226,7 @@
     myChart.showLoading();
 
       dom.style.position = "relative";
-      dom.insertAdjacentHTML("beforeend", "\n        <style>\n          #network-controls { position: absolute; z-index: 10; top: 12px; right: 12px; bottom: 12px; width: 240px; overflow: auto; padding: 12px; border: 1px solid rgba(35, 48, 66, .16); border-radius: 8px; background: rgba(255,255,255,.94); box-shadow: 0 4px 12px rgba(0,0,0,.12); font: 12px Arial, sans-serif; color: #333; }\n          #network-controls h3 { margin: 0 0 8px; font-size: 15px; }\n          #network-controls .field { display: grid; gap: 3px; margin: 0 0 8px; }\n          #network-controls label { color: #596675; font-size: 11px; }\n          #network-controls select, #network-controls button { width: 100%; padding: 7px; border: 1px solid #cbd3db; border-radius: 5px; background: #fff; font: inherit; }\n          #network-controls button { cursor: pointer; }\n          #network-controls .button-primary { background: #3498db; border-color: #3498db; color: #fff; }\n          #network-controls .button-row, #network-controls .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }\n          #network-controls .selection { margin-top: 10px; padding-top: 10px; border-top: 1px solid #dbe2e8; }\n          #network-controls .selection-country { font-size: 14px; font-weight: 700; }\n          #network-controls .status { margin: 3px 0 7px; color: #657386; font-size: 11px; }\n          #network-controls .stat { padding: 6px; border-radius: 4px; background: #f4f6f9; }\n          #network-controls .label { display: block; color: #657386; font-size: 10px; }\n          #network-controls .value { font-weight: 700; }\n          @media (max-width: 760px) { #network-controls { top: auto; left: 12px; width: auto; max-height: 56%; } }\n        </style>\n        <aside id=\"network-controls\" aria-label=\"Filtros da visualização\">\n          <h3>Filtros</h3>\n          <div class=\"field\"><label for=\"viewMode\">Visualizar</label><select id=\"viewMode\"><option value=\"clean\" selected>Mapa limpo</option><option value=\"selected\">País selecionado</option><option value=\"top\">Países mais conectados</option><option value=\"all\">Todas as conexões</option></select></div>\n          <div class=\"field\"><label for=\"connectionMode\">Tipo de conexão</label><select id=\"connectionMode\"><option value=\"international\" selected>Entre países</option><option value=\"national\">Internas no país</option><option value=\"both\">Todas</option></select></div>\n          <div class=\"field\"><label for=\"hemisphere\">Hemisfério</label><select id=\"hemisphere\"><option value=\"all\">Todos</option><option value=\"north\">Norte</option><option value=\"south\">Sul</option></select></div>\n          <div class=\"field\"><label for=\"continent\">Continente</label><select id=\"continent\"><option value=\"all\">Todos</option></select></div>\n          <div class=\"field\"><label for=\"country\">País</label><select id=\"country\"><option value=\"all\">Todos</option></select></div>\n          <div class=\"field\"><label for=\"topLimit\">Maiores conexões</label><select id=\"topLimit\"><option value=\"5\">Top 5</option><option value=\"10\" selected>Top 10</option><option value=\"20\">Top 20</option></select></div>\n          <div class=\"button-row\"><button class=\"button-primary\" id=\"applyButton\">Aplicar</button><button id=\"resetButton\">Limpar</button></div>\n          <div class=\"selection\"><strong>Seleção</strong><div class=\"selection-country\" id=\"selectionCountry\">Nenhum país</div><div class=\"status\" id=\"selectionText\">Clique em um país no mapa.</div><div class=\"stats\"><div class=\"stat\"><span class=\"label\">Total</span><span class=\"value\" id=\"statLinks\">--</span></div><div class=\"stat\"><span class=\"label\">Parceiros</span><span class=\"value\" id=\"statPartners\">--</span></div></div></div>\n        </aside>");
+      dom.insertAdjacentHTML("beforeend", "\n        <style>\n          #network-controls { position: absolute; z-index: 10; top: 12px; right: 12px; bottom: 12px; width: 240px; overflow: auto; padding: 12px; border: 1px solid rgba(35, 48, 66, .16); border-radius: 8px; background: rgba(255,255,255,.94); box-shadow: 0 4px 12px rgba(0,0,0,.12); font: 12px Arial, sans-serif; color: #333; }\n          #network-controls h3 { margin: 0 0 8px; font-size: 15px; }\n          #network-controls .field { display: grid; gap: 3px; margin: 0 0 8px; }\n          #network-controls label { color: #596675; font-size: 11px; }\n          #network-controls select, #network-controls button { width: 100%; padding: 7px; border: 1px solid #cbd3db; border-radius: 5px; background: #fff; font: inherit; }\n          #network-controls button { cursor: pointer; }\n          #network-controls .button-primary { background: #3498db; border-color: #3498db; color: #fff; }\n          #network-controls .button-row, #network-controls .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }\n          #network-controls .selection { margin-top: 10px; padding-top: 10px; border-top: 1px solid #dbe2e8; }\n          #network-controls .selection-country { font-size: 14px; font-weight: 700; }\n          #network-controls .status { margin: 3px 0 7px; color: #657386; font-size: 11px; }\n          #network-controls .stat { padding: 6px; border-radius: 4px; background: #f4f6f9; }\n          #network-controls .label { display: block; color: #657386; font-size: 10px; }\n          #network-controls .value { font-weight: 700; }\n          @media (max-width: 760px) { #network-controls { top: auto; left: 12px; width: auto; max-height: 56%; } }\n        </style>\n        <aside id=\"network-controls\" aria-label=\"Filtros da visualização\">\n          <h3>Filtros</h3>\n          <div class=\"field\"><label for=\"viewMode\">Visualizar</label><select id=\"viewMode\"><option value=\"clean\" selected>Mapa limpo</option><option value=\"selected\">País selecionado</option><option value=\"top\">Países mais conectados</option><option value=\"all\">Todas as conexões</option></select></div>\n          <div class=\"field\"><label for=\"connectionMode\">Tipo de conexão</label><select id=\"connectionMode\"><option value=\"international\" selected>Entre países</option><option value=\"national\">Internas no país</option><option value=\"both\">Todas</option></select></div>\n          <div class=\"field\"><label for=\"hemisphere\">Hemisfério</label><select id=\"hemisphere\"><option value=\"all\">Todos</option><option value=\"north\">Norte</option><option value=\"south\">Sul</option></select></div>\n          <div class=\"field\"><label for=\"continent\">Continente</label><select id=\"continent\"><option value=\"all\">Todos</option></select></div>\n          <div class=\"field\"><label for=\"country\">País</label><select id=\"country\"><option value=\"all\">Todos</option></select></div>\n          <div class=\"button-row\"><button class=\"button-primary\" id=\"applyButton\">Aplicar</button><button id=\"resetButton\">Limpar</button></div>\n          <div class=\"selection\"><strong>Seleção</strong><div class=\"selection-country\" id=\"selectionCountry\">Nenhum país</div><div class=\"status\" id=\"selectionText\">Clique em um país no mapa.</div><div class=\"stats\"><div class=\"stat\"><span class=\"label\">Total</span><span class=\"value\" id=\"statLinks\">--</span></div><div class=\"stat\"><span class=\"label\">Parceiros</span><span class=\"value\" id=\"statPartners\">--</span></div></div></div>\n        </aside>");
 
       const chart = myChart;
 
@@ -236,7 +236,6 @@
         hemisphere: document.getElementById("hemisphere"),
         continent: document.getElementById("continent"),
         country: document.getElementById("country"),
-        topLimit: document.getElementById("topLimit"),
         applyButton: document.getElementById("applyButton"),
         resetButton: document.getElementById("resetButton"),
         selectionCountry: document.getElementById("selectionCountry"),
@@ -251,7 +250,6 @@
         hemisphere: "all",
         continent: "all",
         country: "all",
-        topLimit: 10,
         selectedCountry: null
       };
 
@@ -265,6 +263,7 @@
         continents: []
       };
 
+      const topCountryLimit = 10;
       const numberFmt = new Intl.NumberFormat("pt-BR");
       const percentFmt = new Intl.NumberFormat("pt-BR", {
         style: "percent",
@@ -582,7 +581,7 @@
       function topCountries(counts) {
         return [...counts.entries()]
           .sort((a, b) => b[1] - a[1])
-          .slice(0, state.topLimit)
+          .slice(0, topCountryLimit)
           .map(([country]) => country);
       }
 
@@ -602,7 +601,7 @@
               (corridor) =>
                 countries.has(corridor.sourceCountry) || countries.has(corridor.targetCountry)
             )
-            .slice(0, 90);
+            .slice(0, topCountryLimit);
         }
 
         return aggregateCorridors(links);
@@ -1002,7 +1001,6 @@
         ui.hemisphere.value = state.hemisphere;
         ui.continent.value = state.continent;
         ui.country.value = state.country;
-        ui.topLimit.value = String(state.topLimit);
       }
 
       function render() {
@@ -1032,7 +1030,6 @@
         state.hemisphere = ui.hemisphere.value;
         state.continent = ui.continent.value;
         state.country = ui.country.value;
-        state.topLimit = Number(ui.topLimit.value);
 
         const hasGeographicFilter = state.hemisphere !== "all" || state.continent !== "all";
 
@@ -1056,7 +1053,6 @@
         state.hemisphere = "all";
         state.continent = "all";
         state.country = "all";
-        state.topLimit = 10;
         state.selectedCountry = null;
         updateControls();
         render();
@@ -1122,8 +1118,7 @@
           ui.connectionMode,
           ui.hemisphere,
           ui.continent,
-          ui.country,
-          ui.topLimit
+          ui.country
         ].forEach((control) => {
           control.addEventListener("change", applyFilters);
         });
