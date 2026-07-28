@@ -1034,9 +1034,13 @@
         state.country = ui.country.value;
         state.topLimit = Number(ui.topLimit.value);
 
+        const hasGeographicFilter = state.hemisphere !== "all" || state.continent !== "all";
+
         if (state.country !== "all") {
           state.selectedCountry = state.country;
           state.viewMode = "selected";
+        } else if (hasGeographicFilter && state.viewMode === "clean") {
+          state.viewMode = "all";
         }
       }
 
